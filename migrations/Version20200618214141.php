@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20200618214141 extends AbstractMigration
+{
+    public function getDescription() : string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE vat_declaration (id INT AUTO_INCREMENT NOT NULL, case00 DOUBLE PRECISION DEFAULT NULL, case01 DOUBLE PRECISION DEFAULT NULL, case02 DOUBLE PRECISION DEFAULT NULL, case03 DOUBLE PRECISION DEFAULT NULL, case44 DOUBLE PRECISION DEFAULT NULL, case45 DOUBLE PRECISION DEFAULT NULL, case46 DOUBLE PRECISION DEFAULT NULL, case47 DOUBLE PRECISION DEFAULT NULL, case48 DOUBLE PRECISION DEFAULT NULL, case49 DOUBLE PRECISION DEFAULT NULL, case81 DOUBLE PRECISION DEFAULT NULL, case82 DOUBLE PRECISION DEFAULT NULL, case83 DOUBLE PRECISION DEFAULT NULL, case84 DOUBLE PRECISION DEFAULT NULL, case85 DOUBLE PRECISION DEFAULT NULL, case86 DOUBLE PRECISION DEFAULT NULL, case87 DOUBLE PRECISION DEFAULT NULL, case88 DOUBLE PRECISION DEFAULT NULL, case54 DOUBLE PRECISION DEFAULT NULL, case55 DOUBLE PRECISION DEFAULT NULL, case56 DOUBLE PRECISION DEFAULT NULL, case57 DOUBLE PRECISION DEFAULT NULL, case61 DOUBLE PRECISION DEFAULT NULL, case63 DOUBLE PRECISION DEFAULT NULL, case65 DOUBLE PRECISION DEFAULT NULL, case_xx DOUBLE PRECISION DEFAULT NULL, case59 DOUBLE PRECISION DEFAULT NULL, case62 DOUBLE PRECISION DEFAULT NULL, case64 DOUBLE PRECISION DEFAULT NULL, case66 DOUBLE PRECISION DEFAULT NULL, case_yy DOUBLE PRECISION DEFAULT NULL, case71 DOUBLE PRECISION DEFAULT NULL, case72 DOUBLE PRECISION DEFAULT NULL, case91 DOUBLE PRECISION DEFAULT NULL, period_month VARCHAR(255) DEFAULT NULL, period_trim VARCHAR(255) DEFAULT NULL, vat_decl_sent_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('DROP TABLE vat_declaration');
+    }
+}
