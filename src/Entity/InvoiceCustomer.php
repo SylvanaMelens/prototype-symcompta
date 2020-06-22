@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\InvoiceCustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\InvoiceCustomerRepository;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceCustomerRepository::class)
+ * @ApiResource
  */
 class InvoiceCustomer
 {

@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\VatDeclarationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\VatDeclarationRepository;
 
 /**
  * @ORM\Entity(repositoryClass=VatDeclarationRepository::class)
+ * @ApiResource
  */
 class VatDeclaration
 {
