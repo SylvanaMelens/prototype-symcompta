@@ -5,10 +5,15 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\VatDeclarationRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=VatDeclarationRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={
+ *      "groups"={"vat_declaration_read"}
+ * }
+ * )
  */
 class VatDeclaration
 {
@@ -16,196 +21,235 @@ class VatDeclaration
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"vat_declaration_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case00;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case01;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case02;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case03;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"}) 
      */
     private $case44;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case45;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case46;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case47;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case48;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case49;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case81;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case82;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case83;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case84;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case85;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case86;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case87;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case88;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case54;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case55;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"vat_declaration_read"})
      */
     private $case56;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"}) 
      */
     private $case57;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case61;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case63;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case65;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $caseXx;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case59;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case62;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case64;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case66;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $caseYy;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case71;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case72;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $case91;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $periodMonth;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $periodTrim;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * Groups({"vat_declaration_read"})
      */
     private $vatDeclSentAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * Groups({"vat_declaration_read"})
      */
     private $encodedAt;
 

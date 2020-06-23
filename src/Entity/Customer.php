@@ -7,10 +7,15 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={
+ *      "groups"={"customers_read"}
+ * }
+ * )
  */
 class Customer
 {
@@ -18,61 +23,73 @@ class Customer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups({"customers_read", "invoices_customers_read"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups({"customers_read", "invoices_customers_read"})
      */
     private $postCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Groups({"customers_read", "invoices_customers_read"})
      */
     private $VATNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"customers_read", "invoices_customers_read"})
      */
     private $phone;
 
     /**
      * @ORM\OneToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerClient")
+     *  @Groups({"customers_read"})
      */
     private $invoiceCustomers;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userCustomers")
+     *  @Groups({"customers_read"})
      */
     private $user;
 

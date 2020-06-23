@@ -7,10 +7,15 @@ use App\Repository\VatRateRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=VatRateRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={
+ *      "groups"={"vat_rate_read"}
+ * }
+ * )
  */
 class VatRate
 {
@@ -18,21 +23,25 @@ class VatRate
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"vat_rate_read", "invoices_customers_read", "invoices_providers_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"vat_rate_read", "invoices_customers_read", "invoices_providers_read"})
      */
     private $rate;
 
     /**
      * @ORM\OneToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerVatRate")
+     * @Groups({"vat_rate_read"})
      */
     private $invoiceCustomers;
 
     /**
      * @ORM\ManyToMany(targetEntity=InvoiceProvider::class, mappedBy="invoiceProviderVatRate")
+     * @Groups({"vat_rate_read"})
      */
     private $invoiceProviders;
 

@@ -7,10 +7,15 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InvoiceProviderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceProviderRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={
+ *      "groups"={"invoices_providers_read"}
+ * }
+ * )
  */
 class InvoiceProvider
 {
@@ -18,49 +23,63 @@ class InvoiceProvider
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"invoices_providers_read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="invoiceProviders")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderDescription;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderStatus;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderAmountBase;
 
     /**
      * @ORM\ManyToMany(targetEntity=VatRate::class, inversedBy="invoiceProviders")
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderVatRate;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderTotalAmount;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"invoices_providers_read"})
      */
     private $invoiceProviderNum;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $invoiceProviderVatAmount;
 
     public function __construct()
     {
@@ -178,6 +197,18 @@ class InvoiceProvider
     public function setInvoiceProviderNum(int $invoiceProviderNum): self
     {
         $this->invoiceProviderNum = $invoiceProviderNum;
+
+        return $this;
+    }
+
+    public function getInvoiceProviderVatAmount(): ?float
+    {
+        return $this->invoiceProviderVatAmount;
+    }
+
+    public function setInvoiceProviderVatAmount(float $invoiceProviderVatAmount): self
+    {
+        $this->invoiceProviderVatAmount = $invoiceProviderVatAmount;
 
         return $this;
     }

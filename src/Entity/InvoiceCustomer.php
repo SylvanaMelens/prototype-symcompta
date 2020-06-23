@@ -5,10 +5,14 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InvoiceCustomerRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceCustomerRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  attributes={"order": {"invoiceCustomerSentAt":"desc"}},
+ *  normalizationContext={"groups"={"invoices_customers_read"}}
+ * )
  */
 class InvoiceCustomer
 {
@@ -16,50 +20,64 @@ class InvoiceCustomer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"invoices_customers_read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="invoiceCustomers")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerClient;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerDescription;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerSentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerStatus;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerAmountBase;
 
     /**
      * @ORM\ManyToOne(targetEntity=VatRate::class, inversedBy="invoiceCustomers")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerVatRate;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerTotalAmount;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"invoices_customers_read"})
      */
     private $invoiceCustomerNum;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $invoiceCustomerVatAmount;
 
     public function getId(): ?int
     {
@@ -158,6 +176,18 @@ class InvoiceCustomer
     public function setInvoiceCustomerNum(int $invoiceCustomerNum): self
     {
         $this->invoiceCustomerNum = $invoiceCustomerNum;
+
+        return $this;
+    }
+
+    public function getInvoiceCustomerVatAmount(): ?float
+    {
+        return $this->invoiceCustomerVatAmount;
+    }
+
+    public function setInvoiceCustomerVatAmount(float $invoiceCustomerVatAmount): self
+    {
+        $this->invoiceCustomerVatAmount = $invoiceCustomerVatAmount;
 
         return $this;
     }

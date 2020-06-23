@@ -7,10 +7,16 @@ use App\Repository\ProviderRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProviderRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={
+ *      "groups"={"providers_read"}
+ * }
+ * )
+ * 
  */
 class Provider
 {
@@ -18,61 +24,73 @@ class Provider
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerFirstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerLastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerAddress;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerPostCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerCity;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerCountry;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerVatNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerEmail;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"providers_read", "invoices_providers_read"})
      */
     private $providerPhone;
 
     /**
      * @ORM\OneToMany(targetEntity=InvoiceProvider::class, mappedBy="invoiceProviderName")
+     * @Groups({"providers_read"})
      */
     private $invoiceProviders;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userProviders")
+     * @Groups({"providers_read"})
      */
     private $user;
 
