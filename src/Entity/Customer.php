@@ -6,12 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @ApiResource(
+ *  subresourceOperations={
+ *      "invoice_customers_get_subresource"={"path"="/customers/{id}/invoices"}
+ * },
  *  normalizationContext={
  *      "groups"={"customers_read"}
  * }
@@ -83,7 +87,8 @@ class Customer
 
     /**
      * @ORM\OneToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerClient")
-     *  @Groups({"customers_read"})
+     * @Groups({"customers_read"})
+     * @ApiSubresource
      */
     private $invoiceCustomers;
 

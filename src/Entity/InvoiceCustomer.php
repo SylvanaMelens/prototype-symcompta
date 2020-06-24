@@ -20,7 +20,7 @@ class InvoiceCustomer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $id;
 
@@ -33,49 +33,50 @@ class InvoiceCustomer
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerDescription;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerSentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerStatus;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerAmountBase;
 
     /**
      * @ORM\ManyToOne(targetEntity=VatRate::class, inversedBy="invoiceCustomers")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerVatRate;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerTotalAmount;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_customers_read"})
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerNum;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"invoices_customers_read", "customers_read"})
      */
     private $invoiceCustomerVatAmount;
 

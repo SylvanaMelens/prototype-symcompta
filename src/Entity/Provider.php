@@ -12,6 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ProviderRepository::class)
  * @ApiResource(
+ *  subresourceOperations={
+ *     "invoice_providers_get_subresource"={"path"="/providers/{id}/invoices"}
+ * },
  *  normalizationContext={
  *      "groups"={"providers_read"}
  * }
