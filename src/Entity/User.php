@@ -9,10 +9,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -27,30 +30,40 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"customers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un email")
+     * @Assert\Email(message="veuillez entrer un email valide")
+     * 
+     * 
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     *  @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})
+     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="veuillez entrer un mot de passe")
+     * @Assert\Length(min=8, minMessage="Votre mot de passe doit comporter entre 8 et 50 caractères", max=50, maxMessage="Votre mot de passe doit comporter entre 8 et 50 caractères")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un prénom")
+     * @Assert\Length(min=2, minMessage="Le champ prénom doit comporter entre 2 et 30 caractères", max=30, maxMessage="Le champ prénom doit comporter entre 2 et 30 caractères")
      */
     private $userFirstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})@Groups({"customers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un nom")
+     * @Assert\Length(min=2, minMessage="Le champ nom doit comporter entre 2 et 30 caractères", max=30, maxMessage="Le champ nom doit comporter entre 2 et 30 caractères")
      */
     private $UserLastName;
 

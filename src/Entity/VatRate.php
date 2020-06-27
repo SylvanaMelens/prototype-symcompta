@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=VatRateRepository::class)
@@ -16,6 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      "groups"={"vat_rate_read"}
  * }
  * )
+ * @UniqueEntity("rate", message="Ce taux existe déjà, veuillez en entrer un autre")
  */
 class VatRate
 {
@@ -30,6 +33,7 @@ class VatRate
     /**
      * @ORM\Column(type="float")
      * @Groups({"vat_rate_read", "invoices_customers_read", "invoices_providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un taux de TVA")
      */
     private $rate;
 
@@ -41,7 +45,7 @@ class VatRate
 
     /**
      * @ORM\ManyToMany(targetEntity=InvoiceProvider::class, mappedBy="invoiceProviderVatRate")
-     * @Groups({"vat_rate_read"})
+     * @Groups({"vat_rate_read", "invoices_customers_read"})
      */
     private $invoiceProviders;
 
