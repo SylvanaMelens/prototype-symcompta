@@ -8,13 +8,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InvoiceProviderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceProviderRepository::class)
  * @ApiResource(
  *  normalizationContext={
  *      "groups"={"invoices_providers_read"}
- * }
+ * },
+ *  denormalizationContext={"disable_type_enforcement"=true}
  * )
  */
 class InvoiceProvider
@@ -23,7 +25,7 @@ class InvoiceProvider
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
      */
     private $id;
 
@@ -31,53 +33,69 @@ class InvoiceProvider
      * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="invoiceProviders")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_providers_read"})
+     * @Assert\NotBlank(message="le champ fournisseur ne peut être vide.")
      */
     private $invoiceProviderName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer une description")
      */
     private $invoiceProviderDescription;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer une date valide")
+     * @Assert\DateTime(message="La date doit être au format date YYYY-MM-DD")
      */
     private $invoiceProviderDate;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un statut valide")
+     * @Assert\Choice(choices={"Payée", "Encodée", "NDC"}, message="Le statut doit être 'Payée', 'Encodée' ou 'NDC'")
      */
     private $invoiceProviderStatus;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un montant de base.")
+     * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant de base")
      */
     private $invoiceProviderAmountBase;
 
     /**
      * @ORM\ManyToMany(targetEntity=VatRate::class, inversedBy="invoiceProviders")
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un taux valide")
      */
     private $invoiceProviderVatRate;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un montant total")
+     * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant total")
      */
     private $invoiceProviderTotalAmount;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_providers_read"})
+     * @Groups({"invoices_providers_read", "providers_read"})
+     * @Assert\NotBlank(message="numéro de facture obligatoire")
+     * @Assert\Type(type="integer", message="le numéro de facture doit être un nombre")
      */
     private $invoiceProviderNum;
 
     /**
      * @ORM\Column(type="float")
+     *  @Groups({"invoices_providers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un montant de TVA")
+     * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant de TVA")
      */
     private $invoiceProviderVatAmount;
 

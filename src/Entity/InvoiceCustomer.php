@@ -6,12 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InvoiceCustomerRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceCustomerRepository::class)
  * @ApiResource(
  *  attributes={"order": {"invoiceCustomerSentAt":"desc"}},
- *  normalizationContext={"groups"={"invoices_customers_read"}}
+ *  normalizationContext={"groups"={"invoices_customers_read"}},
+ *  denormalizationContext={"disable_type_enforcement"=true}
  * )
  */
 class InvoiceCustomer
@@ -28,30 +30,40 @@ class InvoiceCustomer
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="invoiceCustomers")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_customers_read"})
+     * @Assert\NotBlank(message="le champ client ne peut être vide")
      */
     private $invoiceCustomerClient;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer une description")
      */
     private $invoiceCustomerDescription;
 
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer une date valide")
+     * @Assert\DateTime(message="veuillez entrer une date au format YYYY-MM-DD")
+     * @Assert\Type("\DateTimeInterface")
+     * 
      */
     private $invoiceCustomerSentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un statut valide")
+     * @Assert\Choice(choices={"Payée", "Envoyée", "NDC"}, message="Le statut doit être 'Payée', 'Envoyée' ou 'NDC'")
      */
     private $invoiceCustomerStatus;
 
     /**
      * @ORM\Column(type="float")
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un montant de base.")
+     * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant de base")
      */
     private $invoiceCustomerAmountBase;
 
@@ -59,24 +71,31 @@ class InvoiceCustomer
      * @ORM\ManyToOne(targetEntity=VatRate::class, inversedBy="invoiceCustomers")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un taux valide")
      */
     private $invoiceCustomerVatRate;
 
     /**
      * @ORM\Column(type="float")
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un montant total")
+     * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant total")
      */
     private $invoiceCustomerTotalAmount;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="numéro de facture obligatoire")
+     * @Assert\Type(type="integer", message="le numéro de facture doit être un nombre")
      */
     private $invoiceCustomerNum;
 
     /**
      * @ORM\Column(type="float")
      * @Groups({"invoices_customers_read", "customers_read"})
+     * @Assert\NotBlank(message="veuillez entrer un montant de TVA")
+     * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant de TVA")
      */
     private $invoiceCustomerVatAmount;
 
@@ -114,7 +133,7 @@ class InvoiceCustomer
         return $this->invoiceCustomerSentAt;
     }
 
-    public function setInvoiceCustomerSentAt(\DateTimeInterface $invoiceCustomerSentAt): self
+    public function setInvoiceCustomerSentAt($invoiceCustomerSentAt): self
     {
         $this->invoiceCustomerSentAt = $invoiceCustomerSentAt;
 
@@ -138,7 +157,7 @@ class InvoiceCustomer
         return $this->invoiceCustomerAmountBase;
     }
 
-    public function setInvoiceCustomerAmountBase(float $invoiceCustomerAmountBase): self
+    public function setInvoiceCustomerAmountBase($invoiceCustomerAmountBase): self
     {
         $this->invoiceCustomerAmountBase = $invoiceCustomerAmountBase;
 
@@ -162,7 +181,7 @@ class InvoiceCustomer
         return $this->invoiceCustomerTotalAmount;
     }
 
-    public function setInvoiceCustomerTotalAmount(float $invoiceCustomerTotalAmount): self
+    public function setInvoiceCustomerTotalAmount($invoiceCustomerTotalAmount): self
     {
         $this->invoiceCustomerTotalAmount = $invoiceCustomerTotalAmount;
 
@@ -174,7 +193,7 @@ class InvoiceCustomer
         return $this->invoiceCustomerNum;
     }
 
-    public function setInvoiceCustomerNum(int $invoiceCustomerNum): self
+    public function setInvoiceCustomerNum($invoiceCustomerNum): self
     {
         $this->invoiceCustomerNum = $invoiceCustomerNum;
 
@@ -186,7 +205,7 @@ class InvoiceCustomer
         return $this->invoiceCustomerVatAmount;
     }
 
-    public function setInvoiceCustomerVatAmount(float $invoiceCustomerVatAmount): self
+    public function setInvoiceCustomerVatAmount($invoiceCustomerVatAmount): self
     {
         $this->invoiceCustomerVatAmount = $invoiceCustomerVatAmount;
 
