@@ -9,7 +9,7 @@ It will only be used for my own accounting as belgian freelance but when it is f
 Possible options should be:
 
 - Inscription,
-- Authentification,
+- Authentication,
 - Consult, add and modify customers, suppliers, invoices and VAT declaration,
 - Calculation of amounts and VAT.
 
