@@ -14,7 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={"groups"={"users_read"}}
+ * )
  * @UniqueEntity("email")
  */
 class User implements UserInterface
@@ -23,13 +25,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})
+     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read", "users_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"customers_read", "providers_read"})
+     * @Groups({"customers_read", "providers_read", "users_read"})
      * @Assert\NotBlank(message="veuillez entrer un email")
      * @Assert\Email(message="veuillez entrer un email valide")
      * 
@@ -39,7 +41,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})
      */
     private $roles = [];
 
@@ -53,7 +54,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})
+     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read", "users_read"})
      * @Assert\NotBlank(message="veuillez entrer un prénom")
      * @Assert\Length(min=2, minMessage="Le champ prénom doit comporter entre 2 et 30 caractères", max=30, maxMessage="Le champ prénom doit comporter entre 2 et 30 caractères")
      */
@@ -61,7 +62,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read"})@Groups({"customers_read", "providers_read"})
+     * @Groups({"customers_read", "providers_read", "invoices_customers_read", "invoices_providers_read", "users_read"})
      * @Assert\NotBlank(message="veuillez entrer un nom")
      * @Assert\Length(min=2, minMessage="Le champ nom doit comporter entre 2 et 30 caractères", max=30, maxMessage="Le champ nom doit comporter entre 2 et 30 caractères")
      */
