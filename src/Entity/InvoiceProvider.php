@@ -69,9 +69,11 @@ class InvoiceProvider
     private $invoiceProviderAmountBase;
 
     /**
-     * @ORM\ManyToMany(targetEntity=VatRate::class, inversedBy="invoiceProviders")
+     * @ORM\ManyToOne(targetEntity=VatRate::class, inversedBy="invoiceProviders")
+     * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_providers_read", "providers_read"})
      * @Assert\NotBlank(message="veuillez entrer un taux valide")
+     * @Assert\Type(type="string", message="Veuillez entrer l'id du taux de tva")
      */
     private $invoiceProviderVatRate;
 

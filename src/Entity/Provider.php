@@ -112,7 +112,7 @@ class Provider
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userProviders")
      * @Groups({"providers_read"})
-     * 
+     * @Assert\NotBlank(message="Veuillez renseigner un utilisateur")
      */
     private $user;
 

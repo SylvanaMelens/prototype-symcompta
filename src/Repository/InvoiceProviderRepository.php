@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\InvoiceProvider;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method InvoiceProvider|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,20 @@ class InvoiceProviderRepository extends ServiceEntityRepository
         parent::__construct($registry, InvoiceProvider::class);
     }
 
+    
+    public function findNextNum(User $user){
+        return $this->createQueryBuilder("invoice")
+                    ->select("invoice.invoiceProviderNum")
+                    ->join("invoice.invoiceProviderName", "p")
+                    ->where("p.user = :user")
+                    ->setParameter("user", $user)
+                    ->orderBy("invoice.invoiceProviderNum", "DESC")
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getSingleScalarResult() + 1;
+
+
+    }
     // /**
     //  * @return InvoiceProvider[] Returns an array of InvoiceProvider objects
     //  */
