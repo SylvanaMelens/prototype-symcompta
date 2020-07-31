@@ -45,7 +45,7 @@ class VatRate
 
     /**
      * @ORM\ManyToMany(targetEntity=InvoiceProvider::class, mappedBy="invoiceProviderVatRate")
-     * @Groups({"vat_rate_read", "invoices_customers_read"})
+     * @Groups({"vat_rate_read"})
      */
     private $invoiceProviders;
 
@@ -115,7 +115,7 @@ class VatRate
     {
         if (!$this->invoiceProviders->contains($invoiceProvider)) {
             $this->invoiceProviders[] = $invoiceProvider;
-            $invoiceProvider->addInvoiceProviderVatRate($this);
+            $invoiceProvider->setInvoiceProviderVatRate($this);
         }
 
         return $this;
@@ -125,7 +125,10 @@ class VatRate
     {
         if ($this->invoiceProviders->contains($invoiceProvider)) {
             $this->invoiceProviders->removeElement($invoiceProvider);
-            $invoiceProvider->removeInvoiceProviderVatRate($this);
+            // set the owning side to null (unless already changed)
+            if ($invoiceProvider->getInvoiceProviderVatRate() === $this) {
+                $invoiceProvider->setInvoiceProviderVatRate(null);
+            }
         }
 
         return $this;

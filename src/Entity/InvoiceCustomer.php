@@ -45,8 +45,6 @@ class InvoiceCustomer
      * @ORM\Column(type="datetime")
      * @Groups({"invoices_customers_read", "customers_read"})
      * @Assert\NotBlank(message="veuillez entrer une date valide")
-     * @Assert\DateTime(message="veuillez entrer une date au format YYYY-MM-DD")
-     * @Assert\Type("\DateTimeInterface")
      * 
      */
     private $invoiceCustomerSentAt;

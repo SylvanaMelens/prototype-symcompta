@@ -46,8 +46,8 @@ class InvoiceProviderNumSubscriber implements EventSubscriberInterface {
             $nextNum = $this->repository->findNextNum($user);
             $invoice->setInvoiceProviderNum($nextNum);
         // automatisation de la date du jour
-            if(empty($invoice->getInvoiceProviderSentAt())){
-                $invoice->setInvoiceProviderSentAt(new \DateTime());
+            if(empty($invoice->getInvoiceProviderDate())){
+                $invoice->setInvoiceProviderDate(new \DateTime());
             }
         }
 

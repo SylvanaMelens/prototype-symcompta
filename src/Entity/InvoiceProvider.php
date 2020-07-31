@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InvoiceProviderRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,7 +46,6 @@ class InvoiceProvider
      * @ORM\Column(type="datetime")
      * @Groups({"invoices_providers_read", "providers_read"})
      * @Assert\NotBlank(message="veuillez entrer une date valide")
-     * @Assert\DateTime(message="La date doit être au format date YYYY-MM-DD")
      */
     private $invoiceProviderDate;
 
@@ -73,7 +70,6 @@ class InvoiceProvider
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_providers_read", "providers_read"})
      * @Assert\NotBlank(message="veuillez entrer un taux valide")
-     * @Assert\Type(type="string", message="Veuillez entrer l'id du taux de tva")
      */
     private $invoiceProviderVatRate;
 
@@ -100,11 +96,6 @@ class InvoiceProvider
      * @Assert\Type(type="numeric", message="Veuillez entrer un nombre comme montant de TVA")
      */
     private $invoiceProviderVatAmount;
-
-    public function __construct()
-    {
-        $this->invoiceProviderVatRate = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -140,7 +131,7 @@ class InvoiceProvider
         return $this->invoiceProviderDate;
     }
 
-    public function setInvoiceProviderDate(\DateTimeInterface $invoiceProviderDate): self
+    public function setInvoiceProviderDate($invoiceProviderDate): self
     {
         $this->invoiceProviderDate = $invoiceProviderDate;
 
@@ -171,28 +162,14 @@ class InvoiceProvider
         return $this;
     }
 
-    /**
-     * @return Collection|VatRate[]
-     */
-    public function getInvoiceProviderVatRate(): Collection
+    public function getInvoiceProviderVatRate(): ?VatRate
     {
         return $this->invoiceProviderVatRate;
     }
 
-    public function addInvoiceProviderVatRate(VatRate $invoiceProviderVatRate): self
+    public function setInvoiceProviderVatRate(?VatRate $invoiceProviderVatRate): self
     {
-        if (!$this->invoiceProviderVatRate->contains($invoiceProviderVatRate)) {
-            $this->invoiceProviderVatRate[] = $invoiceProviderVatRate;
-        }
-
-        return $this;
-    }
-
-    public function removeInvoiceProviderVatRate(VatRate $invoiceProviderVatRate): self
-    {
-        if ($this->invoiceProviderVatRate->contains($invoiceProviderVatRate)) {
-            $this->invoiceProviderVatRate->removeElement($invoiceProviderVatRate);
-        }
+        $this->invoiceProviderVatRate = $invoiceProviderVatRate;
 
         return $this;
     }
