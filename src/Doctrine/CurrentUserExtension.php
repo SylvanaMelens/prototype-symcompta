@@ -21,7 +21,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?string $operationName = null)
     {
         // 1. OBTENTION DE L USER CONNECTE
-        $user = $this>security->getUser();
+        $user = $this->security->getUser();
         // 2. LORS DE LA DEMANDE D INVOICE OU INTERVENANTS -> TENIR COMPTE DE L USER CONNECTE
         if ($resourceClass === Customer::class || InvoiceCustomer::class || InvoiceProvider::class || Provider::class || VatDeclaration::class || VatRate::class) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
@@ -32,7 +32,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
                 $queryBuilder->andWhere("$rootAlias.user = :user");
 
             } else if($resourceClass === InvoiceCustomer::class){
-                $queryBuilder->join("$rootAlias.customer", "c")
+                $queryBuilder->join("$rootAlias.invoiceCustomerClient", "c")
                              ->andWhere("c.user = :user");
             } else if($resourceClass === InvoiceProvider::class){   
                 $queryBuilder->join("$rootAlias.invoiceProviderName", "p")
