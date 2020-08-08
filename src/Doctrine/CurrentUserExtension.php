@@ -39,7 +39,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
                             ->andWhere("p.user = :user");
             }
 
-            $queryBuilder->setParameter(">user", $user);
+            $queryBuilder->setParameter("user", $user);
        
         }
     }
