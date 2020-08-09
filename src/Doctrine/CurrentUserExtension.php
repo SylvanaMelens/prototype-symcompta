@@ -33,7 +33,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
 
             } else if($resourceClass === InvoiceCustomer::class){
                 $queryBuilder->join("$rootAlias.invoiceCustomerClient", "c")
-                             ->andWhere("c.user = :user");
+                            ->andWhere("c.user = :user");
             } else if($resourceClass === InvoiceProvider::class){   
                 $queryBuilder->join("$rootAlias.invoiceProviderName", "p")
                             ->andWhere("p.user = :user");
