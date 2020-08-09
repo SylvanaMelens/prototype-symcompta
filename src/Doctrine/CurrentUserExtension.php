@@ -6,7 +6,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInter
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use Doctrine\ORM\QueryBuilder;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use App\Entity\Customer;
+use App\Entity\InvoiceCustomer;
+use App\Entity\InvoiceProvider;
+use App\Entity\Provider;
 use App\Entity\VatDeclaration;
+use App\Entity\VatRate;
 use Symfony\Component\Security\Core\Security;
 
 class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
@@ -25,22 +30,21 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
         // 2. LORS DE LA DEMANDE D INVOICE OU INTERVENANTS -> TENIR COMPTE DE L USER CONNECTE
         if ($resourceClass === Customer::class || InvoiceCustomer::class || InvoiceProvider::class || Provider::class || VatDeclaration::class || VatRate::class) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
-            
-            if($resourceClass === Customer::class){
-                $queryBuilder->andWhere("$rootAlias.user = :user");
-            } else if($resourceClass === Provider::class){
-                $queryBuilder->andWhere("$rootAlias.user = :user");
 
-            } else if($resourceClass === InvoiceCustomer::class){
+            if ($resourceClass === Customer::class) {
+
+                $queryBuilder->andWhere("$rootAlias.user = :user");
+            } else if ($resourceClass === Provider::class) {
+                $queryBuilder->andWhere("$rootAlias.user = :user");
+            } else if ($resourceClass === InvoiceCustomer::class) {
                 $queryBuilder->join("$rootAlias.invoiceCustomerClient", "c")
-                            ->andWhere("c.user = :user");
-            } else if($resourceClass === InvoiceProvider::class){   
+                    ->andWhere("c.user = :user");
+            } else if ($resourceClass === InvoiceProvider::class) {
                 $queryBuilder->join("$rootAlias.invoiceProviderName", "p")
-                            ->andWhere("p.user = :user");
+                    ->andWhere("p.user = :user");
             }
 
             $queryBuilder->setParameter("user", $user);
-       
         }
     }
 
