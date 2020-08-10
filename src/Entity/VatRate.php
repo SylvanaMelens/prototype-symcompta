@@ -38,7 +38,7 @@ class VatRate
     private $rate;
 
     /**
-     * @ORM\OneToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerVatRate")
+     * @ORM\ManyToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerVatRate")
      * @Groups({"vat_rate_read"})
      */
     private $invoiceCustomers;

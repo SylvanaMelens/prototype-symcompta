@@ -1,0 +1,11 @@
+body {
+  background-image: url("https://sylvanamelens.com/corolla.jpg");
+}
+#div {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 20%;
+}
+
+h1 {
+  color: #fff;
+}
