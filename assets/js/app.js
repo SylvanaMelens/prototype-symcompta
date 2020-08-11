@@ -1,5 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Navbar from "./components/NavBar"
+import HomePage from "./pages/HomePage"
+import CustomersPage from "./pages/CustomersPage";
+import { HashRouter, Switch, Route } from "react-router-dom"
 
 // any CSS you import will output into a single css file (app.css in this case)
 import "../css/app.css";
@@ -10,7 +14,17 @@ import "../css/app.css";
 console.log("Hello Webpack Encore! Edit me in assets/js/app.js");
 
 const App = () => {
-  return <h1>Bonjour à tous!</h1>;
+  return <HashRouter> //affiche #/customers
+    <Navbar />
+    <main className="container pt-5">
+        <Switch>
+          <Route path="/clients" component={CustomersPage}/>
+          <Route path="/" component={HomePage}/>
+          
+        </Switch>
+
+    </main>
+  </HashRouter>;
 };
 
 const rootElement = document.querySelector("#app");
