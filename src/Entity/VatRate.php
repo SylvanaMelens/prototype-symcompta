@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\InvoiceCustomer;
 
 /**
  * @ORM\Entity(repositoryClass=VatRateRepository::class)
@@ -38,13 +39,13 @@ class VatRate
     private $rate;
 
     /**
-     * @ORM\ManyToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerVatRate")
+     * @ORM\OneToMany(targetEntity=InvoiceCustomer::class, mappedBy="invoiceCustomerVatRate")
      * @Groups({"vat_rate_read"})
      */
     private $invoiceCustomers;
 
     /**
-     * @ORM\ManyToMany(targetEntity=InvoiceProvider::class, mappedBy="invoiceProviderVatRate")
+     * @ORM\OneToMany(targetEntity=InvoiceProvider::class, mappedBy="invoiceProviderVatRate")
      * @Groups({"vat_rate_read"})
      */
     private $invoiceProviders;
@@ -77,7 +78,7 @@ class VatRate
      */
     public function getInvoiceCustomers(): Collection
     {
-        return $this->invoiceCustomers;
+        return $this->invoiceCustomers->getInvoiceCustomerVatRate();
     }
 
     public function addInvoiceCustomer(InvoiceCustomer $invoiceCustomer): self

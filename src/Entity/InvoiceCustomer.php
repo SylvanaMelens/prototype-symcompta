@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\VatRate;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\InvoiceCustomerRepository;
@@ -66,7 +67,7 @@ class InvoiceCustomer
     private $invoiceCustomerAmountBase;
 
     /**
-     * @ORM\ManyToMany(targetEntity=VatRate::class, inversedBy="invoiceCustomers")
+     * @ORM\ManyToOne(targetEntity=VatRate::class, inversedBy="invoiceCustomers")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_customers_read", "customers_read"})
      * @Assert\NotBlank(message="veuillez entrer un taux valide")

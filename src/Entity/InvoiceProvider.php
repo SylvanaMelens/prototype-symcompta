@@ -66,7 +66,7 @@ class InvoiceProvider
     private $invoiceProviderAmountBase;
 
     /**
-     * @ORM\ManyToMany(targetEntity=VatRate::class, inversedBy="invoiceProviders")
+     * @ORM\ManyToOne(targetEntity=VatRate::class, inversedBy="invoiceProviders")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"invoices_providers_read", "providers_read"})
      * @Assert\NotBlank(message="veuillez entrer un taux valide")
