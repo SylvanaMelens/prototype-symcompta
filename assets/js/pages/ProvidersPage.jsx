@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CustomersPage = (props) => {
-  const [customers, setCustomers] = useState([]);
+const ProvidersPage = (props) => {
+  const [providers, setProviders] = useState([]);
 
   useEffect(() => {
     // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
     axios
-      .get("http://localhost:8000/api/customers")
+      .get("http://localhost:8000/api/providers")
       .then(response => response.data["hydra:member"])
-      .then(data => setCustomers(data))
+      .then(data => setProviders(data))
       .catch(error => console.log(error.response));
   }, []);
 
@@ -19,20 +19,20 @@ const CustomersPage = (props) => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>CLIENT</th>
+            <th>FOURNISSEUR</th>
             <th>EMAIL</th>
             <th colSpan="2"></th>
           </tr>
         </thead>
         <tbody>
-          {customers.map(
-            customer => 
-              <tr key={customer.id}>
-                <td>{customer.id}</td>
+          {providers.map(
+            provider => 
+              <tr key={provider.id}>
+                <td>{provider.id}</td>
                 <td>
-                  <a href="#">{customer.firstName} {customer.lastName}</a>
+                  <a href="#">{provider.providerFirstName} {provider.providerLastName}</a>
                 </td>
-                <td>{customer.email}</td>
+                <td>{provider.providerEmail}</td>
                 <td className="text-center">
                   <button className="btn btn-sm btn-secondary">VOIR</button>
                 </td>
@@ -49,4 +49,4 @@ const CustomersPage = (props) => {
   );
 };
 
-export default CustomersPage;
+export default ProvidersPage;

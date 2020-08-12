@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Navbar from "./components/NavBar"
 import HomePage from "./pages/HomePage"
 import CustomersPage from "./pages/CustomersPage";
+import ProvidersPage from "./pages/ProvidersPage";
 import { HashRouter, Switch, Route } from "react-router-dom"
 
 // any CSS you import will output into a single css file (app.css in this case)
@@ -19,6 +20,7 @@ const App = () => {
     <main className="container pt-5">
         <Switch>
           <Route path="/clients" component={CustomersPage}/>
+          <Route path="/fournisseurs" component={ProvidersPage}/>
           <Route path="/" component={HomePage}/>
           
         </Switch>
