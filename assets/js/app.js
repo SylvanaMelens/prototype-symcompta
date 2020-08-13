@@ -15,7 +15,7 @@ import "../css/app.css";
 console.log("Hello Webpack Encore! Edit me in assets/js/app.js");
 
 const App = () => {
-  return <HashRouter> //affiche #/customers
+  return <HashRouter>
     <Navbar />
     <main className="container pt-5">
         <Switch>

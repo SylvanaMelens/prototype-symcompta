@@ -2,15 +2,17 @@ body {
   background-image: url("https://sylvanamelens.com/corolla.jpg");
 }
 table {
-  background-color:#222;
+  background-color: #222;
 }
 
-tr, th, td, a {
-
+tr,
+th,
+td,
+a {
   color: #eee;
 }
 
-a:hover{
+a:hover {
   color: #fff;
 }
 
@@ -21,4 +23,8 @@ h1 {
 .btn-gris {
   background-color: #bbb;
   color: #fff;
+}
+
+.pagination {
+  bottom: 50px;
 }
