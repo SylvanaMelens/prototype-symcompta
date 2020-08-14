@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination";
 
 const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
@@ -17,9 +18,7 @@ const CustomersPage = (props) => {
   const handleDelete = (id) => {
     //console.log(id);
     const originalCustomers = [...customers];
-
     setCustomers(customers.filter((customer) => customer.id !== id));
-
     axios
       .delete("http://localhost:8000/api/customers/" + id)
       .then((response) => console.log("ok"))
@@ -29,21 +28,31 @@ const CustomersPage = (props) => {
       });
   };
 
-  
+  const handleChangePage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginated = Pagination.getData(customers, currentPage);
 
   return (
     <>
       <table className="table table-hover">
-        <thead>
+        <thead className="thead">
           <tr>
             <th>ID</th>
             <th>CLIENT</th>
             <th>EMAIL</th>
-            <th colSpan="2"></th>
+            <th className="form-group" colSpan="2">
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                className="form-control"
+              />
+            </th>
           </tr>
         </thead>
         <tbody>
-          {customers.map((customer) => (
+          {paginated.map((customer) => (
             <tr key={customer.id}>
               <td>{customer.id}</td>
               <td>
@@ -69,7 +78,13 @@ const CustomersPage = (props) => {
         </tbody>
       </table>
 
-      <Pagination pageName={customers}/>
+      {customers.length > 7 && (
+        <Pagination
+          pageName={customers}
+          currentPage={currentPage}
+          handleChangePage={handleChangePage}
+        />
+      )}
     </>
   );
 };

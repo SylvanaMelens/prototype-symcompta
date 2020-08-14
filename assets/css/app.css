@@ -5,6 +5,10 @@ table {
   background-color: #222;
 }
 
+.table thead th {
+  vertical-align: middle;
+}
+
 tr,
 th,
 td,
@@ -16,8 +20,14 @@ a:hover {
   color: #fff;
 }
 
+
+
 h1 {
   color: #fff;
+}
+
+.thead {
+  background-color: #111;
 }
 
 .btn-gris {

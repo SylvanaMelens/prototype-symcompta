@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination";
 
 const ProvidersPage = (props) => {
   const [providers, setProviders] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
@@ -15,11 +16,8 @@ const ProvidersPage = (props) => {
   }, []);
 
   const handleDelete = (id) => {
-    console.log(id);
     const originalProviders = [...providers];
-
     setProviders(providers.filter((provider) => provider.id !== id));
-
     axios
       .delete("http://localhost:8000/api/providers/" + id)
       .then((response) => console.log("ok"))
@@ -29,10 +27,16 @@ const ProvidersPage = (props) => {
       });
   };
 
+  const handleChangePage = page => {
+    setCurrentPage(page)
+  }  
+
+  const paginated = Pagination.getData(providers, currentPage)
+
   return (
     <>
       <table className="table table-hover">
-        <thead>
+        <thead className="thead">
           <tr>
             <th>ID</th>
             <th>FOURNISSEUR</th>
@@ -41,7 +45,7 @@ const ProvidersPage = (props) => {
           </tr>
         </thead>
         <tbody>
-          {providers.map((provider) => (
+          {paginated.map((provider) => (
             <tr key={provider.id}>
               <td>{provider.id}</td>
               <td>
@@ -67,7 +71,11 @@ const ProvidersPage = (props) => {
         </tbody>
       </table>
 
-      <Pagination pageName={providers} />
+      {providers.length > 7 && 
+        <Pagination 
+          pageName={providers} 
+          currentPage={currentPage} 
+          handleChangePage={handleChangePage} />}
     </>
   );
 };
