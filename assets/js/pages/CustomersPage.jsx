@@ -5,6 +5,7 @@ import Pagination from "../components/Pagination";
 const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
@@ -32,7 +33,15 @@ const CustomersPage = (props) => {
     setCurrentPage(page);
   };
 
-  const paginated = Pagination.getData(customers, currentPage);
+  const handleSearch = (e) => {
+    const value = e.currentTarget.value;
+    setSearch(value);
+    setCurrentPage(1);
+  };
+  
+  const filtered = customers.filter(c => c.firstName.toLowerCase().includes(search.toLowerCase()) || c.lastName.toLowerCase().includes(search.toLowerCase()));
+
+  const paginated = filtered.length > 7 ? Pagination.getData(filtered, currentPage) : filtered;
 
   return (
     <>
@@ -47,6 +56,8 @@ const CustomersPage = (props) => {
                 type="text"
                 placeholder="Rechercher..."
                 className="form-control"
+                onChange={handleSearch}
+                value={search}
               />
             </th>
           </tr>
@@ -78,7 +89,7 @@ const CustomersPage = (props) => {
         </tbody>
       </table>
 
-      {customers.length > 7 && (
+      {filtered.length > 7 && (
         <Pagination
           pageName={customers}
           currentPage={currentPage}

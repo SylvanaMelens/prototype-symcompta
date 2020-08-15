@@ -5,6 +5,7 @@ import Pagination from "../components/Pagination";
 const ProvidersPage = (props) => {
   const [providers, setProviders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
@@ -30,8 +31,16 @@ const ProvidersPage = (props) => {
   const handleChangePage = page => {
     setCurrentPage(page)
   }  
+  
+  const handleSearch = (e) => {
+    const value = e.currentTarget.value;
+    setSearch(value);
+    setCurrentPage(1);
+  };
+  
+  const filtered = providers.filter(p => p.providerFirstName.toLowerCase().includes(search.toLowerCase()) || p.providerLastName.toLowerCase().includes(search.toLowerCase()));
 
-  const paginated = Pagination.getData(providers, currentPage)
+  const paginated = filtered.length > 7 ? Pagination.getData(providers, currentPage) : filtered;
 
   return (
     <>
@@ -41,7 +50,15 @@ const ProvidersPage = (props) => {
             <th>ID</th>
             <th>FOURNISSEUR</th>
             <th>EMAIL</th>
-            <th colSpan="2"></th>
+            <th colSpan="2">
+              <input
+                  type="text"
+                  placeholder="Rechercher..."
+                  className="form-control"
+                  onChange={handleSearch}
+                  value={search}
+                />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -71,11 +88,12 @@ const ProvidersPage = (props) => {
         </tbody>
       </table>
 
-      {providers.length > 7 && 
+      {filtered.length > 7 && (
         <Pagination 
           pageName={providers} 
           currentPage={currentPage} 
-          handleChangePage={handleChangePage} />}
+          handleChangePage={handleChangePage} />
+          )}
     </>
   );
 };
