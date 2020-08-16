@@ -51,8 +51,8 @@ security:
     - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/customers, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/providers, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api/invoice_customers, roles: IS_AUTHENTICATED_FULLY }
-    - { path: ^/api/invoice_providers, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/invoice_customers, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/invoice_providers, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/vat_rates, roles: IS_AUTHENTICATED_FULLY }
     - {
         path: ^/api/users,
