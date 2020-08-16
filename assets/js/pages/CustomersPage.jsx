@@ -1,47 +1,51 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Pagination from "../components/Pagination";
+import IntervenantAPI from "../services/IntervenantAPI.js";
 
 const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
-    axios
-      .get("http://localhost:8000/api/customers/")
-      .then((response) => response.data["hydra:member"])
-      .then((data) => setCustomers(data))
-      .catch((error) => console.log(error.response));
-  }, []);
+  const fetchIntervenant = async () => {
+    try {
+      const data = await IntervenantAPI.findAll("customers");
+      setCustomers(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
-  const handleDelete = (id) => {
-    //console.log(id);
+  useEffect(() => fetchIntervenant(), []);
+
+  const handleDelete = async (id) => {
     const originalCustomers = [...customers];
     setCustomers(customers.filter((customer) => customer.id !== id));
-    axios
-      .delete("http://localhost:8000/api/customers/" + id)
-      .then((response) => console.log("ok"))
-      .catch((error) => {
-        setCustomers(originalCustomers);
-        console.log(error.response);
-      });
+
+    try {
+      await IntervenantAPI.delete(id, "customers");
+    } catch (error) {
+      setCustomers(originalCustomers);
+      console.log(error.response);
+    }
   };
 
-  const handleChangePage = (page) => {
-    setCurrentPage(page);
-  };
+  const handleChangePage = (page) => setCurrentPage(page);
 
-  const handleSearch = (e) => {
-    const value = e.currentTarget.value;
-    setSearch(value);
+
+  const handleSearch = ({ currentTarget }) => {
+    setSearch(currentTarget.value);
     setCurrentPage(1);
   };
-  
-  const filtered = customers.filter(c => c.firstName.toLowerCase().includes(search.toLowerCase()) || c.lastName.toLowerCase().includes(search.toLowerCase()));
 
-  const paginated = filtered.length > 7 ? Pagination.getData(filtered, currentPage) : filtered;
+  const filtered = customers.filter(
+    (c) =>
+      c.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      c.lastName.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginated =
+    filtered.length > 7 ? Pagination.getData(filtered, currentPage) : filtered;
 
   return (
     <>

@@ -1,46 +1,50 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Pagination from "../components/Pagination";
+import IntervenantAPI from "../services/IntervenantAPI.js";
 
 const ProvidersPage = (props) => {
   const [providers, setProviders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    // axios permet de faire des rq http basées sur des promesses -> qd elle sera terminée on peut travailler dessus
-    axios
-      .get("http://localhost:8000/api/providers/")
-      .then((response) => response.data["hydra:member"])
-      .then((data) => setProviders(data))
-      .catch((error) => console.log(error.response));
-  }, []);
+  const fetchIntervenant = async () => {
+    try {
+      const data = await IntervenantAPI.findAll("providers");
+      setCustomers(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
-  const handleDelete = (id) => {
+  useEffect(() => fetchIntervenant(), []);
+
+  const handleDelete = async (id) => {
     const originalProviders = [...providers];
     setProviders(providers.filter((provider) => provider.id !== id));
-    axios
-      .delete("http://localhost:8000/api/providers/" + id)
-      .then((response) => console.log("ok"))
-      .catch((error) => {
-        setProviders(originalProviders);
-        console.log(error.response);
-      });
+
+    try {
+      await IntervenantAPI.delete(id, "providers");
+    } catch (error) {
+      setProviders(originalProviders);
+      console.log(error.response);
+    }
   };
 
-  const handleChangePage = page => {
-    setCurrentPage(page)
-  }  
-  
-  const handleSearch = (e) => {
-    const value = e.currentTarget.value;
-    setSearch(value);
+  const handleChangePage = (page) => setCurrentPage(page);
+
+  const handleSearch = ({ currentTarget }) => {
+    setSearch(currentTarget.value);
     setCurrentPage(1);
   };
-  
-  const filtered = providers.filter(p => p.providerFirstName.toLowerCase().includes(search.toLowerCase()) || p.providerLastName.toLowerCase().includes(search.toLowerCase()));
 
-  const paginated = filtered.length > 7 ? Pagination.getData(providers, currentPage) : filtered;
+  const filtered = providers.filter(
+    (p) =>
+      p.providerFirstName.toLowerCase().includes(search.toLowerCase()) ||
+      p.providerLastName.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginated =
+    filtered.length > 7 ? Pagination.getData(providers, currentPage) : filtered;
 
   return (
     <>
@@ -52,12 +56,12 @@ const ProvidersPage = (props) => {
             <th>EMAIL</th>
             <th colSpan="2">
               <input
-                  type="text"
-                  placeholder="Rechercher..."
-                  className="form-control"
-                  onChange={handleSearch}
-                  value={search}
-                />
+                type="text"
+                placeholder="Rechercher..."
+                className="form-control"
+                onChange={handleSearch}
+                value={search}
+              />
             </th>
           </tr>
         </thead>
@@ -89,11 +93,12 @@ const ProvidersPage = (props) => {
       </table>
 
       {filtered.length > 7 && (
-        <Pagination 
-          pageName={providers} 
-          currentPage={currentPage} 
-          handleChangePage={handleChangePage} />
-          )}
+        <Pagination
+          pageName={providers}
+          currentPage={currentPage}
+          handleChangePage={handleChangePage}
+        />
+      )}
     </>
   );
 };
