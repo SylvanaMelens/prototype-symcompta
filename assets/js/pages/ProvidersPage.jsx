@@ -16,7 +16,7 @@ const ProvidersPage = (props) => {
     }
   };
 
-  useEffect(() => fetchIntervenant(), []);
+  useEffect(() => { fetchIntervenant(), [] })
 
   const handleDelete = async (id) => {
     const originalProviders = [...providers];

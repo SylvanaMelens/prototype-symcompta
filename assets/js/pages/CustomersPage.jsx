@@ -16,7 +16,7 @@ const CustomersPage = (props) => {
     }
   };
 
-  useEffect(() => fetchIntervenant(), []);
+  useEffect(() => { fetchIntervenant(), [] })
 
   const handleDelete = async (id) => {
     const originalCustomers = [...customers];
