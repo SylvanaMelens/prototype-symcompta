@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
-import Thead from "../components/Thead"
 import IntervenantAPI from "../services/IntervenantAPI.js";
 
-const CustomersPage = (props) => {
+const InvoicesCustomerPage = (props) => {
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -51,7 +50,22 @@ const CustomersPage = (props) => {
   return (
     <>
       <table className="table table-hover">
-      <Thead name="CLIENT"/>
+        <thead className="thead">
+          <tr>
+            <th>ID</th>
+            <th>CLIENT</th>
+            <th>EMAIL</th>
+            <th className="form-group" colSpan="2">
+              <input
+                type="text"
+                placeholder="Rechercher..."
+                className="form-control"
+                onChange={handleSearch}
+                value={search}
+              />
+            </th>
+          </tr>
+        </thead>
         <tbody>
           {paginated.map((customer) => (
             <tr key={customer.id}>
@@ -61,13 +75,7 @@ const CustomersPage = (props) => {
                   {customer.firstName} {customer.lastName}
                 </a>
               </td>
-              <td><a 
-                    href={`mailto:${customer.email}`}
-                    target="_blank" 
-                    rel="noopener noreferrer">
-                      {customer.email}
-                  </a>
-              </td>
+              <td>{customer.email}</td>
               <td className="text-center">
                 <button className="btn btn-sm btn-secondary">VOIR</button>
               </td>
@@ -96,4 +104,4 @@ const CustomersPage = (props) => {
   );
 };
 
-export default CustomersPage;
+export default InvoicesCustomerPage.jsx;

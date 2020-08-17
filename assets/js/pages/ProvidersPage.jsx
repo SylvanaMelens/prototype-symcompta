@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
+import Thead from "../components/Thead";
 import IntervenantAPI from "../services/IntervenantAPI.js";
 
 const ProvidersPage = (props) => {
@@ -10,7 +11,7 @@ const ProvidersPage = (props) => {
   const fetchIntervenant = async () => {
     try {
       const data = await IntervenantAPI.findAll("providers");
-      setCustomers(data);
+      setProviders(data);
     } catch (error) {
       console.log(error.response);
     }
@@ -49,22 +50,7 @@ const ProvidersPage = (props) => {
   return (
     <>
       <table className="table table-hover">
-        <thead className="thead">
-          <tr>
-            <th>ID</th>
-            <th>FOURNISSEUR</th>
-            <th>EMAIL</th>
-            <th colSpan="2">
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                className="form-control"
-                onChange={handleSearch}
-                value={search}
-              />
-            </th>
-          </tr>
-        </thead>
+        <Thead name="FOURNISSEUR"/>
         <tbody>
           {paginated.map((provider) => (
             <tr key={provider.id}>
