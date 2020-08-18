@@ -1,13 +1,14 @@
 import React from "react";
 
-const Thead = (props) => {
+const TheadInvoice = (props) => {
   return (
     <>
       <thead className="thead">
         <tr>
-          <th>ID</th>
+          <th>NUMERO</th>
+          <th>DATE</th>
           <th>{props.name}</th>
-          <th>EMAIL</th>
+          <th>MONTANT</th>
           <th className="form-group" colSpan="2">
             <input
               type="text"
@@ -23,4 +24,4 @@ const Thead = (props) => {
   );
 };
 
-export default Thead;
+export default TheadInvoice;

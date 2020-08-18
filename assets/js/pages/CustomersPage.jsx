@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import Thead from "../components/Thead"
-import IntervenantAPI from "../services/IntervenantAPI.js";
+import axiosAPI from "../services/axiosAPI.js";
 
 const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
@@ -10,7 +10,7 @@ const CustomersPage = (props) => {
 
   const fetchIntervenant = async () => {
     try {
-      const data = await IntervenantAPI.findAll("customers");
+      const data = await axiosAPI.findAll("customers");
       setCustomers(data);
     } catch (error) {
       console.log(error.response);
@@ -24,7 +24,7 @@ const CustomersPage = (props) => {
     setCustomers(customers.filter((customer) => customer.id !== id));
 
     try {
-      await IntervenantAPI.delete(id, "customers");
+      await axiosAPI.delete(id, "customers");
     } catch (error) {
       setCustomers(originalCustomers);
       console.log(error.response);
@@ -51,7 +51,7 @@ const CustomersPage = (props) => {
   return (
     <>
       <table className="table table-hover">
-      <Thead name="CLIENT"/>
+      <Thead name="CLIENT" onChange={handleSearch} value={search}/>
         <tbody>
           {paginated.map((customer) => (
             <tr key={customer.id}>

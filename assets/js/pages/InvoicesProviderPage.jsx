@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
-import IntervenantAPI from "../services/IntervenantAPI.js";
+import axiosAPI from "../services/axiosAPI.js";
+import TheadInvoice from "../components/TheadInvoice"
+import moment from 'moment';
 
 const InvoicesProviderPage = (props) => {
-  const [customers, setCustomers] = useState([]);
+  const [invoices, setInvoices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const fetchIntervenant = async () => {
+  const fetchInvoices = async () => {
     try {
-      const data = await IntervenantAPI.findAll("customers");
-      setCustomers(data);
+      const data = await axiosAPI.findAll("invoice_providers");
+      setInvoices(data);
     } catch (error) {
       console.log(error.response);
     }
   };
 
-  useEffect(() => { fetchIntervenant(), [] })
+  useEffect(() => { fetchInvoices(), [] })
 
-  const handleDelete = async (id) => {
-    const originalCustomers = [...customers];
-    setCustomers(customers.filter((customer) => customer.id !== id));
+ const handleDelete = async (id) => {
+    const originalInvoices = [...invoices];
+    setInvoices(invoices.filter((invoice) => invoice.id !== id));
 
     try {
-      await IntervenantAPI.delete(id, "customers");
+      await axiosAPI.delete(id, "invoice_providers");
     } catch (error) {
-      setCustomers(originalCustomers);
+      setInvoices(originalInvoices);
       console.log(error.response);
     }
   };
@@ -38,10 +40,12 @@ const InvoicesProviderPage = (props) => {
     setCurrentPage(1);
   };
 
-  const filtered = customers.filter(
-    (c) =>
-      c.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      c.lastName.toLowerCase().includes(search.toLowerCase())
+  const filtered = invoices.filter(
+    (i) =>
+      i.invoiceCustomerClient.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      i.invoiceCustomerClient.lastName.toLowerCase().includes(search.toLowerCase()) || 
+      i.invoiceCustomerTotalAmount.toString().includes(search.toLowerCase()) || 
+      i.invoiceCustomerNum.toString().includes(search.toLowerCase())
   );
 
   const paginated =
@@ -49,40 +53,27 @@ const InvoicesProviderPage = (props) => {
 
   return (
     <>
+    <h1>FACTURES CLIENTS</h1>
       <table className="table table-hover">
-        <thead className="thead">
-          <tr>
-            <th>ID</th>
-            <th>CLIENT</th>
-            <th>EMAIL</th>
-            <th className="form-group" colSpan="2">
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                className="form-control"
-                onChange={handleSearch}
-                value={search}
-              />
-            </th>
-          </tr>
-        </thead>
+        <TheadInvoice name="CLIENT" onChange={handleSearch} value={search} />
         <tbody>
-          {paginated.map((customer) => (
-            <tr key={customer.id}>
-              <td>{customer.id}</td>
+          {paginated.map((invoice) => (
+            <tr key={invoice.id}>
+              <td>{invoice.invoiceCustomerNum}</td>
+              <td>{moment(invoice.invoiceCustomerSentAt).format("DD/MM/YYYY")}</td>
               <td>
                 <a href="#">
-                  {customer.firstName} {customer.lastName}
+                  {invoice.invoiceCustomerClient['firstName']} {invoice.invoiceCustomerClient['lastName']}
                 </a>
               </td>
-              <td>{customer.email}</td>
+              <td>{invoice.invoiceCustomerTotalAmount.toLocaleString()} €</td>
               <td className="text-center">
                 <button className="btn btn-sm btn-secondary">VOIR</button>
               </td>
               <td className="text-center">
                 <button
-                  onClick={() => handleDelete(customer.id)}
-                  disabled={customer.invoiceCustomers.length > 0}
+                  onClick={() => handleDelete(invoice.id)}
+                  // disabled={invoice.invoiceCustomers.length > 0}
                   className="btn btn-sm btn-gris"
                 >
                   SUPPRIMER
@@ -93,9 +84,9 @@ const InvoicesProviderPage = (props) => {
         </tbody>
       </table>
 
-      {filtered.length > 7 && (
+      {invoices.length > 7 && (
         <Pagination
-          pageName={customers}
+          pageName={invoices}
           currentPage={currentPage}
           handleChangePage={handleChangePage}
         />
@@ -104,4 +95,4 @@ const InvoicesProviderPage = (props) => {
   );
 };
 
-export default InvoicesProviderPage.jsx;
+export default InvoicesProviderPage;
