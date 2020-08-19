@@ -8,7 +8,7 @@ const findAll = (item) => {
 
 const deleteIntervenant = (id, item) => {
     return axios
-    .delete(`http://localhost:8000/api/${item}/` + id)
+    .delete(`http://localhost:8000/api/${item}/${id}`)
 }
 
 export default {

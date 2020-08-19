@@ -9,6 +9,7 @@ import InvoicesCustomerPage from "./pages/InvoicesCustomerPage";
 import HomePage from "./pages/HomePage";
 import ProvidersPage from "./pages/ProvidersPage";
 import InvoicesProviderPage from "./pages/InvoicesProviderPage";
+import LoginPage from "./pages/LoginPage"
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
@@ -19,6 +20,7 @@ const App = () => {
     <Navbar />
     <main className="container pt-5">
         <Switch>
+          <Route path="/login" component={LoginPage}/>  
           <Route path="/clients" component={CustomersPage}/>
           <Route path="/factures-clients" component={InvoicesCustomerPage}/>
           <Route path="/fournisseurs" component={ProvidersPage}/>

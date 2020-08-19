@@ -1,6 +1,8 @@
 body {
-  background-image: url("https://sylvanamelens.com/corolla.jpg");
+  background-color: #ddd;
+  /* background-image: url("https://sylvanamelens.com/corolla.jpg"; */
 }
+
 table {
   background-color: #222;
 }
@@ -24,6 +26,7 @@ a:hover {
 
 h1 {
   color: #fff;
+  text-shadow: 2px 2px 2px #bbb;
 }
 
 .thead {
@@ -37,4 +40,38 @@ h1 {
 
 .pagination {
   bottom: 50px;
+}
+
+#form {
+  width: 30%;
+  padding: 3em;
+  background-color:#333;
+  border-radius: 10px;
+}
+
+#form label {
+  color: #fff;
+  text-align: center;
+  font-weight: 200;
+  margin-top: 1em;
+}
+#form input {
+  border-radius: 5px;
+}
+
+#form button {
+  border-radius: 5px;
+  background-color: #bbb;
+  color: #fff;
+  font-weight: bold;
+}
+
+#div-btn-connexion {
+  margin-top: 3em;
+  display: flex;
+}
+#connexion {
+  text-align: center;
+  text-shadow: 2px 2px 2px #333;
+  padding-bottom: 0.2em;
 }
