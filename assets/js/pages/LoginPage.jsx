@@ -1,56 +1,72 @@
 import React, { useState } from "react";
+import axiosAPI from "../services/axiosAPI";
 
 const LoginPage = (props) => {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
 
-    const [credentials, setCredentials] = useState({
-        username: "",
-        password: ""
-    })
+  const [error, setError] = useState("");
 
-    const handleChange = (e) => {
-        const value = e.currentTarget.value;
-        const name = e.currentTarget.name;
-        setCredentials({...credentials, [name]: value})
+  const handleChange = ({ currentTarget }) => {
+    const { value, name } = currentTarget;
+    setCredentials({ ...credentials, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axiosAPI.authenticate(credentials);
+      setError("");
+    } catch (error) {
+      console.log(error.response);
+      setError("Oups email invalide...");
     }
+  };
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        console.log(credentials)
-
-    }
-
-    return (
+  return (
     <>
-        <form onSubmit={handleSubmit} className="center-block" id="form" action="">
-            <h1 id="connexion">Connexion</h1>
-            <div className="form-group">
-            <label htmlFor="username">Entrez votre email</label>
-            <input
-                value={ credentials.username }
-                onChange={ handleChange }
-                type="email"
-                className="form-control"
-                placeholder="example@example.com"
-                name="username"
-                id="username"
-            />
-            </div>
-            <div className="form-group">
-            <label htmlFor="password">Entrez votre mot de passe</label>
-            <input
-                value={ credentials.password }
-                onChange={ handleChange }
-                type="password"
-                className="form-control"
-                placeholder="mot de passe"
-                name="password"
-                id="password"
-            />
-            </div>
-            <div id="div-btn-connexion" className="form-group" >
-               <button type="submit" className="btn btn-secondary col-md-6">CONNEXION</button>
-            </div>
-        </form>
+      <form
+        onSubmit={handleSubmit}
+        className="center-block"
+        id="form"
+        action=""
+      >
+        <h1 id="connexion">Connexion</h1>
+        <div className="form-group">
+          <label htmlFor="username">Entrez votre email</label>
+          <input
+            className={"form-control" + (error && " is-invalid")}
+            value={credentials.username}
+            onChange={handleChange}
+            type="email"
+            placeholder="example@example.com"
+            name="username"
+            id="username"
+          />
+          {error && <p className="invalid-feedback">{error}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Entrez votre mot de passe</label>
+          <input
+            className="form-control"
+            value={credentials.password}
+            onChange={handleChange}
+            type="password"
+            placeholder="mot de passe"
+            name="password"
+            id="password"
+          />
+        </div>
+
+        <div id="div-btn-connexion" className="form-group">
+          <button type="submit" className="btn btn-secondary col-md-6">
+            CONNEXION
+          </button>
+        </div>
+      </form>
     </>
   );
 };
