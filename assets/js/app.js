@@ -9,28 +9,33 @@ import InvoicesCustomerPage from "./pages/InvoicesCustomerPage";
 import HomePage from "./pages/HomePage";
 import ProvidersPage from "./pages/ProvidersPage";
 import InvoicesProviderPage from "./pages/InvoicesProviderPage";
-import LoginPage from "./pages/LoginPage"
-
+import LoginPage from "./pages/LoginPage";
+import axiosAPI from "./services/axiosAPI";
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
-const App = () => {
-  return <HashRouter>
-    <Navbar />
-    <main className="container pt-5">
-        <Switch>
-          <Route path="/login" component={LoginPage}/>  
-          <Route path="/clients" component={CustomersPage}/>
-          <Route path="/factures-clients" component={InvoicesCustomerPage}/>
-          <Route path="/fournisseurs" component={ProvidersPage}/>
-          <Route path="/factures-fournisseurs" component={InvoicesProviderPage}/>
-          <Route path="/" component={HomePage}/>
-          
-        </Switch>
+axiosAPI.setup();
 
-    </main>
-  </HashRouter>;
+const App = () => {
+  return (
+    <HashRouter>
+      <Navbar />
+      <main className="container pt-5">
+        <Switch>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/clients" component={CustomersPage} />
+          <Route path="/factures-clients" component={InvoicesCustomerPage} />
+          <Route path="/fournisseurs" component={ProvidersPage} />
+          <Route
+            path="/factures-fournisseurs"
+            component={InvoicesProviderPage}
+          />
+          <Route path="/" component={HomePage} />
+        </Switch>
+      </main>
+    </HashRouter>
+  );
 };
 
 const rootElement = document.querySelector("#app");

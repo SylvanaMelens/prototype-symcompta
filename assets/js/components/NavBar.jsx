@@ -1,11 +1,17 @@
 import React from "react";
+import axiosAPI from "../services/axiosAPI";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
+  const handleLogout = () => {
+    axiosAPI.logout();
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a className="navbar-brand" href="#">
+      <NavLink className="navbar-brand" to="/">
         SYMCOMPTA
-      </a>
+      </NavLink>
       <button
         className="navbar-toggler"
         type="button"
@@ -21,43 +27,47 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarColor01">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/clients">
               Clients <span className="sr-only">(current)</span>
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-            Factures clients
-            </a>
+            <NavLink className="nav-link" to="/factures-clients">
+              Factures clients
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/fournisseurs">
               Fournisseurs
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/factures-fournisseurs">
               Factures fournisseurs
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <NavLink className="nav-link" to="/declaration-tva">
               Déclaration TVA
-            </a>
+            </NavLink>
           </li>
         </ul>
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a href="" className="nav-link">
+            <NavLink to="/inscription" className="nav-link">
               Inscription
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a href="#" className="btn btn-secondary">
+            <NavLink to="/login" className="btn btn-secondary">
               Connexion
-            </a>
+            </NavLink>
           </li>
-          <li className="nav-item"><a href="#" className="btn btn-secondary">Déconnexion</a></li>
+          <li className="nav-item">
+            <button onClick={handleLogout} className="btn btn-secondary">
+              Déconnexion
+            </button>
+          </li>
         </ul>
       </div>
     </nav>
