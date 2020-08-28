@@ -18,11 +18,13 @@ import axiosAPI from "./services/axiosAPI";
 axiosAPI.setup();
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    axiosAPI.isAuthenticated()
+  );
 
   return (
     <HashRouter>
-      <Navbar isAuthenticated={isAuthenticated} onLogout={setAuthenticated} />
+      <Navbar isAuthenticated={isAuthenticated} onLogout={setIsAuthenticated} />
       <main className="container pt-5">
         <Switch>
           <Route

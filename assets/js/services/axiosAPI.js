@@ -16,13 +16,17 @@ const logout = () => {
   delete axios.defaults.headers["Authorization"];
 };
 
+const setAxiosToken = (token) => {
+  return (axios.defaults.headers["Authorization"] = "Bearer " + token);
+};
+
 const authenticate = (credentials) => {
   return axios
     .post("http://localhost:8000/api/login_check", credentials)
     .then((response) => response.data.token)
     .then((token) => {
       window.localStorage.setItem("authToken", token);
-      axios.defaults.headers["Authorization"] = "Bearer " + token;
+      setAxiosToken(token);
       return true;
     });
 };
@@ -33,14 +37,22 @@ const setup = () => {
   if (token) {
     const jwtData = jwtDecode(token);
     if (jwtData.exp * 1000 > new Date().getTime()) {
-      axios.defaults.headers["Authorization"] = "Bearer " + token;
-      console.log("connexion établie avec axios")
-    } else {
-      logout();
+      setAxiosToken(token);
+      console.log("connexion établie avec axios");
     }
-  } else {
-    logout();
   }
+};
+
+const isAuthenticated = () => {
+  const token = window.localStorage.getItem("authToken");
+  if (token) {
+    const jwtData = jwtDecode(token);
+    if (jwtData.exp * 1000 > new Date().getTime()) {
+      return true;
+    }
+    return false;
+  }
+  return false;
 };
 
 export default {
@@ -49,4 +61,5 @@ export default {
   authenticate,
   logout,
   setup,
+  isAuthenticated,
 };
