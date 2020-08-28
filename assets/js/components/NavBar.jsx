@@ -2,9 +2,10 @@ import React from "react";
 import axiosAPI from "../services/axiosAPI";
 import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, onLogout }) => {
   const handleLogout = () => {
     axiosAPI.logout();
+    onLogout(false);
   };
 
   return (
@@ -46,28 +47,33 @@ const Navbar = () => {
               Factures fournisseurs
             </NavLink>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <NavLink className="nav-link" to="/declaration-tva">
               Déclaration TVA
             </NavLink>
-          </li>
+          </li> */}
         </ul>
         <ul className="navbar-nav ml-auto">
-          <li className="nav-item">
-            <NavLink to="/inscription" className="nav-link">
-              Inscription
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/login" className="btn btn-secondary">
-              Connexion
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <button onClick={handleLogout} className="btn btn-secondary">
-              Déconnexion
-            </button>
-          </li>
+          {(!isAuthenticated && (
+            <>
+              <li className="nav-item">
+                <NavLink to="/inscription" className="nav-link">
+                  Inscription
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/login" className="btn btn-secondary">
+                  Connexion
+                </NavLink>
+              </li>
+            </>
+          )) || (
+            <li className="nav-item">
+              <button onClick={handleLogout} className="btn btn-secondary">
+                Déconnexion
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

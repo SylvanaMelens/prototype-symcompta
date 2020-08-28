@@ -245,7 +245,7 @@ class Customer
     }
 
     public function addInvoiceCustomer(InvoiceCustomer $invoiceCustomer): self
-    {
+    {   
         if (!$this->invoiceCustomers->contains($invoiceCustomer)) {
             $this->invoiceCustomers[] = $invoiceCustomer;
             $invoiceCustomer->setInvoiceCustomerClient($this);

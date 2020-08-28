@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch } from "react-router-dom";
 // any CSS you import will output into a single css file (app.css in this case)
@@ -18,12 +18,17 @@ import axiosAPI from "./services/axiosAPI";
 axiosAPI.setup();
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <HashRouter>
-      <Navbar />
+      <Navbar isAuthenticated={isAuthenticated} onLogout={setAuthenticated} />
       <main className="container pt-5">
         <Switch>
-          <Route path="/login" component={LoginPage} />
+          <Route
+            path="/login"
+            render={(props) => <LoginPage onLogin={setIsAuthenticated} />}
+          />
           <Route path="/clients" component={CustomersPage} />
           <Route path="/factures-clients" component={InvoicesCustomerPage} />
           <Route path="/fournisseurs" component={ProvidersPage} />
