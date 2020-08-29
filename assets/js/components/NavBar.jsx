@@ -28,9 +28,9 @@ const Navbar = ({ isAuthenticated, onLogout, history }) => {
 
       <div className="collapse navbar-collapse" id="navbarColor01">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
+          <li className="nav-item">
             <NavLink className="nav-link" to="/clients">
-              Clients <span className="sr-only">(current)</span>
+              Clients
             </NavLink>
           </li>
           <li className="nav-item">

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { HashRouter, Route, Switch, withRouter } from "react-router-dom";
+import {
+  HashRouter,
+  Route,
+  Switch,
+  withRouter,
+  Redirect,
+} from "react-router-dom";
 // any CSS you import will output into a single css file (app.css in this case)
 import "../css/app.css";
 import Navbar from "./components/NavBar";
@@ -17,6 +23,13 @@ import axiosAPI from "./services/axiosAPI";
 
 axiosAPI.setup();
 
+const PrivateRoute = ({ path, isAuthenticated, component }) =>
+  isAuthenticated ? (
+    <Route path={path} component={component} />
+  ) : (
+    <Redirect to="/login" />
+  );
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     axiosAPI.isAuthenticated()
@@ -26,19 +39,37 @@ const App = () => {
 
   return (
     <HashRouter>
-      <NavbarWithRouter isAuthenticated={isAuthenticated} onLogout={setIsAuthenticated} />
+      <NavbarWithRouter
+        isAuthenticated={isAuthenticated}
+        onLogout={setIsAuthenticated}
+      />
       <main className="container pt-5">
         <Switch>
           <Route
             path="/login"
-            render={(props) => <LoginPage onLogin={setIsAuthenticated} {...props} />}
+            render={(props) => (
+              <LoginPage onLogin={setIsAuthenticated} {...props} />
+            )}
           />
-          <Route path="/clients" component={CustomersPage} />
-          <Route path="/factures-clients" component={InvoicesCustomerPage} />
-          <Route path="/fournisseurs" component={ProvidersPage} />
-          <Route
+          <PrivateRoute
+            path="/clients"
+            component={CustomersPage}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/factures-clients"
+            component={InvoicesCustomerPage}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/fournisseurs"
+            component={ProvidersPage}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
             path="/factures-fournisseurs"
             component={InvoicesProviderPage}
+            isAuthenticated={isAuthenticated}
           />
           <Route path="/" component={HomePage} />
         </Switch>
