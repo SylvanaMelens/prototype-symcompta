@@ -17,18 +17,12 @@ import ProvidersPage from "./pages/ProvidersPage";
 import InvoicesProviderPage from "./pages/InvoicesProviderPage";
 import LoginPage from "./pages/LoginPage";
 import axiosAPI from "./services/axiosAPI";
+import PrivateRoute from "./components/PrivateRoute";
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
 axiosAPI.setup();
-
-const PrivateRoute = ({ path, isAuthenticated, component }) =>
-  isAuthenticated ? (
-    <Route path={path} component={component} />
-  ) : (
-    <Redirect to="/login" />
-  );
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
