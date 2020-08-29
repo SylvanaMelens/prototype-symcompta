@@ -2,10 +2,11 @@ import React from "react";
 import axiosAPI from "../services/axiosAPI";
 import { NavLink } from "react-router-dom";
 
-const Navbar = ({ isAuthenticated, onLogout }) => {
+const Navbar = ({ isAuthenticated, onLogout, history }) => {
   const handleLogout = () => {
     axiosAPI.logout();
     onLogout(false);
+    history.push("/login");
   };
 
   return (

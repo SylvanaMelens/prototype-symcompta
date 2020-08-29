@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosAPI from "../services/axiosAPI";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, history }) => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -21,6 +21,7 @@ const LoginPage = ({ onLogin }) => {
       await axiosAPI.authenticate(credentials);
       setError("");
       onLogin(true);
+      history.replace("/clients");
     } catch (error) {
       console.log(error.response);
       setError("Oups email invalide...");
