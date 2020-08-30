@@ -1,5 +1,4 @@
 body {
-  
   background-image: url("https://sylvanamelens.com/corolla.jpg");
 }
 
@@ -22,8 +21,6 @@ a:hover {
   color: #fff;
 }
 
-
-
 h1 {
   color: #fff;
   text-shadow: 2px 2px 2px #bbb;
@@ -43,9 +40,8 @@ h1 {
 }
 
 #form {
-  width: 30%;
   padding: 3em;
-  background-color:#333;
+  background-color: #333;
   border-radius: 10px;
   margin: 0 auto;
 }
@@ -65,15 +61,11 @@ h1 {
   background-color: #bbb;
   color: #fff;
   font-weight: bold;
-  margin: 0 auto;
 }
 
 #div-btn-connexion {
   margin-top: 3em;
-  display: flex;
 }
 #connexion {
-  text-align: center;
   text-shadow: 2px 2px 2px #333;
-  padding-bottom: 0.2em;
 }

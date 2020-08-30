@@ -32,11 +32,11 @@ const LoginPage = ({ onLogin, history }) => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="center-block"
+        className="center-block form-group col-sm-6"
         id="form"
         action=""
       >
-        <h1 id="connexion">Connexion</h1>
+        <h1 id="connexion" className="text-center form-group col-sm-4 pb2">Connexion</h1>
         <div className="form-group">
           <label htmlFor="username">Entrez votre email</label>
           <input
@@ -50,7 +50,7 @@ const LoginPage = ({ onLogin, history }) => {
           />
           {error && <p className="invalid-feedback">{error}</p>}
         </div>
-        <div className="form-group">
+        <div className="form-group ">
           <label htmlFor="password">Entrez votre mot de passe</label>
           <input
             className="form-control"
@@ -63,8 +63,8 @@ const LoginPage = ({ onLogin, history }) => {
           />
         </div>
 
-        <div id="div-btn-connexion" className="form-group">
-          <button type="submit" className="btn btn-secondary col-md-6">
+        <div id="div-btn-connexion" className="form-group text-center">
+          <button type="submit" className="btn btn-secondary col-sm-6">
             CONNEXION
           </button>
         </div>
