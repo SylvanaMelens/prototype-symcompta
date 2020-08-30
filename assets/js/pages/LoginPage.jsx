@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axiosAPI from "../services/axiosAPI";
 import Field from "../components/forms/Field";
+import Form from "../components/forms/Form";
 
 const LoginPage = ({ onLogin, history }) => {
   const [credentials, setCredentials] = useState({
@@ -31,15 +32,7 @@ const LoginPage = ({ onLogin, history }) => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className="center-block form-group col-sm-6"
-        id="form"
-        action=""
-      >
-        <h1 id="connexion" className="text-center form-group col-sm-4 pb2">
-          Connexion
-        </h1>
+      <Form onSubmit={handleSubmit} title="CONNEXION">
         <Field
           label="Entrez votre email"
           value={credentials.username}
@@ -58,12 +51,7 @@ const LoginPage = ({ onLogin, history }) => {
           name="password"
           error={error}
         />
-        <div id="div-btn-connexion" className="form-group text-center">
-          <button type="submit" className="btn btn-secondary col-sm-6">
-            CONNEXION
-          </button>
-        </div>
-      </form>
+      </Form>
     </>
   );
 };
