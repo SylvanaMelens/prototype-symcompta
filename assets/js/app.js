@@ -11,6 +11,7 @@ import {
 import "../css/app.css";
 import Navbar from "./components/NavBar";
 import CustomersPage from "./pages/CustomersPage";
+import CustomerPage from "./pages/CustomerPage";
 import InvoicesCustomerPage from "./pages/InvoicesCustomerPage";
 import HomePage from "./pages/HomePage";
 import ProvidersPage from "./pages/ProvidersPage";
@@ -48,6 +49,11 @@ const App = () => {
           <PrivateRoute
             path="/clients"
             component={CustomersPage}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/clients/:id"
+            component={CustomerPage}
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute

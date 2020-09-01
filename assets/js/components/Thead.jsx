@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"
 
 const Thead = (props) => {
   return (
@@ -8,7 +9,12 @@ const Thead = (props) => {
           <th>ID</th>
           <th>{props.name}</th>
           <th>EMAIL</th>
-          <th className="form-group" colSpan="2">
+          <th>
+          <div className="d-flex justify-content-between align-items-center">
+            <Link to={"/" + props.name.toLowerCase() + "s/new"} className="btn btn-sm btn-gris">Ajouter</Link>
+          </div>
+          </th>
+          <th className="form-group">
             <input
               type="text"
               placeholder="Rechercher..."
