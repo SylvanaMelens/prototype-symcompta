@@ -10,8 +10,8 @@ import {
 // any CSS you import will output into a single css file (app.css in this case)
 import "../css/app.css";
 import Navbar from "./components/NavBar";
-import CustomersPage from "./pages/CustomersPage";
 import CustomerPage from "./pages/CustomerPage";
+import CustomersPage from "./pages/CustomersPage";
 import InvoicesCustomerPage from "./pages/InvoicesCustomerPage";
 import HomePage from "./pages/HomePage";
 import ProvidersPage from "./pages/ProvidersPage";
@@ -47,13 +47,13 @@ const App = () => {
             )}
           />
           <PrivateRoute
-            path="/clients"
-            component={CustomersPage}
+            path="/clients/:id"
+            component={CustomerPage}
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute
-            path="/clients/:id"
-            component={CustomerPage}
+            path="/clients"
+            component={CustomersPage}
             isAuthenticated={isAuthenticated}
           />
           <PrivateRoute
