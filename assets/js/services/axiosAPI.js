@@ -55,6 +55,12 @@ const isAuthenticated = () => {
   return false;
 };
 
+// const addIntervenant = () => {
+//   return axios.post(`http://localhost:8000/api/${item}s`, item)
+
+// }
+
+
 export default {
   findAll,
   delete: deleteIntervenant,

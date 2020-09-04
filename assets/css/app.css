@@ -69,3 +69,11 @@ h1 {
 #connexion {
   text-shadow: 2px 2px 2px #333;
 }
+
+.registred {
+  color: darkred;
+  font-weight: bold;
+  font-size: 1.1em;
+  background-color: black;
+  padding: 1em;
+}

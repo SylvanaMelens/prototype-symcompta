@@ -7,7 +7,7 @@ const Form = (props, { onSubmit, title }) => {
         onSubmit={props.onSubmit}
         className="center-block form-group col-sm-6"
         id="form"
-        action=""
+        action="post"
       >
         <h1 id="connexion" className="text-center form-group col-sm-2 pb2">
           {props.title}
