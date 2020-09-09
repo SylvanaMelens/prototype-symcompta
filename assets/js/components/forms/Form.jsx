@@ -9,7 +9,7 @@ const Form = (props, { onSubmit, title }) => {
         id="form"
         action="post"
       >
-        <h1 id="connexion" className="text-center form-group col-sm-2 pb2">
+        <h1 className="connexion text-center form-group col-sm-2 pb2">
           {props.title}
         </h1>
         {props.children}

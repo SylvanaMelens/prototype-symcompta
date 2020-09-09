@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "../components/forms/Form";
 import Field from "../components/forms/Field";
 import { Link } from "react-router-dom";
@@ -7,14 +7,16 @@ import axios from "axios";
 // props = name, label, value, onChange, type = "text", placeholder = "", error = ""
 
 const CustomerPage = (props) => {
+  const { id = "new" } = props.match.params;
+
   const [customer, setCustomer] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     address: "",
-    postcode: "",
+    postCode: "",
     city: "",
     country: "",
-    VatNumber: "NA",
+    VATNumber: "NA",
     email: "",
     phone: "",
   });
@@ -30,7 +32,47 @@ const CustomerPage = (props) => {
     email: "",
     phone: "",
   });
+
   const [isRegistered, setIsRegistered] = useState(false);
+
+  const [editing, setEditing] = useState(false);
+
+  const fetchCustomer = async (id) => {
+    try {
+      const data = await axios
+        .get("http://localhost:8000/api/customers/" + id)
+        .then((response) => response.data);
+      const {
+        firstName,
+        lastName,
+        address,
+        postCode,
+        city,
+        country,
+        VATNumber,
+        email,
+        phone,
+       } = data;
+      setCustomer({
+        firstName,
+        lastName,
+        address,
+        postCode,
+        city,
+        country,
+        VATNumber,
+        email,
+        phone,
+      });
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  useEffect(() => {
+    if (id !== "new") setEditing(true), [id];
+    fetchCustomer(id);
+  });
 
   const handleChange = ({ currentTarget }) => {
     const { value, name } = currentTarget;
@@ -41,13 +83,18 @@ const CustomerPage = (props) => {
     e.preventDefault();
 
     try {
+
+        if(editing) {
+            const response = await axios.put("http://localhost:8000/api/customers/" + id, customer)
+            console.log(response.data)
+            setIsRegistered(false);
+        } else {
       const response = await axios.post(
         "http://localhost:8000/api/customers",
         customer
-      );
+      )};
       setIsRegistered(true);
       setErrors({});
-
     } catch (error) {
       if (error.response.data.violations) {
         const apiErrors = {};
@@ -61,20 +108,23 @@ const CustomerPage = (props) => {
 
   return (
     <>
-      <Form title="AJOUTER UN CLIENT" onSubmit={handleSubmit}>
+      <Form
+        title={(!editing && "AJOUTER UN CLIENT") || "MODIFIER UN CLIENT"}
+        onSubmit={handleSubmit}
+      >
         <Field
-          name="firstname"
+          name="firstName"
           label="Prénom ou sigle société"
           placeholder="Prénom ou sigle société"
-          value={customer.firstname}
+          value={customer.firstName}
           onChange={handleChange}
           error={errors.firstName}
         />
         <Field
-          name="lastname"
+          name="lastName"
           label="Nom"
           placeholder="Nom personne ou société"
-          value={customer.lastname}
+          value={customer.lastName}
           onChange={handleChange}
           error={errors.lastName}
         />
@@ -87,10 +137,10 @@ const CustomerPage = (props) => {
           error={errors.address}
         />
         <Field
-          name="postcode"
+          name="postCode"
           label="Code postal"
           placeholder="Code postal"
-          value={customer.postcode}
+          value={customer.postCode}
           onChange={handleChange}
           error={errors.postCode}
         />
@@ -111,10 +161,10 @@ const CustomerPage = (props) => {
           error={errors.country}
         />
         <Field
-          name="VatNumber"
+          name="VATNumber"
           label="Numéro de TVA"
           placeholder='BE0123456789 ou "NA" si non assujetti'
-          value={customer.VatNumber}
+          value={customer.VATNumber}
           onChange={handleChange}
           error={errors.VATNumber}
         />
@@ -125,6 +175,7 @@ const CustomerPage = (props) => {
           value={customer.email}
           onChange={handleChange}
           error={errors.email}
+          type="email"
         />
         <Field
           name="phone"
