@@ -38,7 +38,6 @@ const setup = () => {
     const jwtData = jwtDecode(token);
     if (jwtData.exp * 1000 > new Date().getTime()) {
       setAxiosToken(token);
-      console.log("connexion établie avec axios");
     }
   }
 };
@@ -54,11 +53,6 @@ const isAuthenticated = () => {
   }
   return false;
 };
-
-// const addIntervenant = () => {
-//   return axios.post(`http://localhost:8000/api/${item}s`, item)
-
-// }
 
 
 export default {
